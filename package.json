@@ -1,4 +1,18 @@
 {
-  "name": "md-links",
-  "version": "0.1.0"
+  "name": "md-links-nataly-farias",
+  "version": "0.0.1",
+  "description": "Proyecto para leer un archivo .md y encontrar enlaces que funcionan",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {},
+  "keywords": [
+    "md",
+    "liks",
+    "test",
+    "uplink"
+  ],
+  "author": "NatalyFarias",
+  "license": "ISC"
 }

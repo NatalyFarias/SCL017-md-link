@@ -56,4 +56,4 @@ const parameterType = process.argv[2];
 const valor = fs.lstatSync(parameterType).isDirectory();
 console.log('Es un directorio : ' + valor);
 
-module.exports.mdLinks = mdLinks(fileName)
+module.exports.mdLinks = mdLinks(parameterType)

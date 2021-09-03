@@ -3,6 +3,7 @@ const fs = require('fs');
 const pathModule = require('path');
 const EXTENSION_MD = '.md';
 const regularExpresionUrl = /\]\((http[^)]+)\)/g
+const fetchUrl = require("fetch").fetchUrl;
 
 //creo funcion para luego en la funcion principal pueda ser llamada
 //esta funcion verifica si es un directorio
@@ -41,6 +42,17 @@ const takeLinks = (filename) => {
     })
   })
 };
+const isValidLinks = (url) => {
+  return new Promise((resolve, reject) => {
+    fetchUrl(url, (error, response ) => {
+      if (error) {
+        reject(error)
+      } else {
+        resolve(response)
+      }
+    })
+  })
+};
 
 //funcion principal md link que lee los archivos 
 const mdLinks = (path) => {
@@ -49,13 +61,19 @@ const mdLinks = (path) => {
       files.forEach(file => {
         if (pathModule.extname(file) === EXTENSION_MD) {
           takeLinks(file).then(links => {
-            console.log(links);
+            links.map(url => {
+              isValidLinks(url).then(checkedLink => {
+                if (checkedLink.status === 200) {
+                  console.log(file, url.split(0, 51), ' OK ', checkedLink.status);
+                } else {
+                  console.log(file, url.split(0, 51), ' Fail ', checkedLink.status);
+                }
+              });
+            });
           }).catch(err => console.log(err))
         }
       })
     }).catch(err => console.log(err))
-  }else{
-    // Aqui ira la funcionalidad cuando se envie un archivo
   }
 }
 
@@ -63,3 +81,4 @@ const mdLinks = (path) => {
 // Declarando variable parameterType y asignamos lo que envia la terminal
 const parameterType = process.argv[2];
 module.exports.mdLinks = mdLinks(parameterType)
+
